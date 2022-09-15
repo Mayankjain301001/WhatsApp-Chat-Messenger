@@ -16,7 +16,8 @@ function Login() {
           }
         )
     }).catch(err=>{
-        alert(err.message);
+        // alert(err.message);
+        window.location.reload();
     })
   }
   return (
@@ -29,9 +30,10 @@ function Login() {
             <Button onClick={signIn}>
                 Sign in With Google
             </Button>
+            <div className='bbb'>Developed by: Mayank Jain</div>
         </div>
     </div>
   )
 }
 
-export default Login
+export default Login;

@@ -15,6 +15,10 @@ import { useStateValue } from './StateProvider';
 import { doc, deleteDoc } from "firebase/firestore";
 import Picker from 'emoji-picker-react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 function Chat() {
   const [seed,setSeed] = useState('');
@@ -41,6 +45,7 @@ function Chat() {
   }, [roomId]);
 
   const sendMessage = (e)=>{
+    if(input.length===0) return;
     e.preventDefault();
     console.log("You have typed a message: ",input);
     db.collection('Rooms').doc(roomId).collection('messages').add({
@@ -60,7 +65,15 @@ function Chat() {
 
   const delete123 = ()=>{
     deleteDoc(doc(db, "Rooms", roomId));
-    
+  }
+
+  const update = ()=>{
+    const newName = prompt("Edit the chat-room name");
+    if(newName.length==0) return;
+    if(newName[0]===' '){
+      alert("First character of room name should not be an empty space"); return;
+    }
+    db.collection("Rooms").doc(roomId).update({name: newName});
   }
 
   return (
@@ -77,11 +90,9 @@ function Chat() {
           </div>
           <div className='chat_headerRight'>
             <IconButton>
-                <SearchIcon />
+              <EditIcon onClick={update} />
             </IconButton>
-            <IconButton>
-                <DeleteIcon onClick={ delete123} />
-            </IconButton>
+              <Button className="dust" component={Link} to="/rooms"><DeleteIcon className="dust" onClick={ delete123} /></Button>
           </div>
         </div>
         <div className='chat__body'>

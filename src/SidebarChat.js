@@ -48,4 +48,4 @@ function SidebarChat({id,name,addNewChat}) {
   )
 }
 
-export default SidebarChat
+export default SidebarChat;

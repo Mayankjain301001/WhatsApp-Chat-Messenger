@@ -26,3 +26,9 @@
     color: white;
     border-radius: 10px;
 }
+
+.bbb{
+    font-weight: bolder;
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 20px;
+}

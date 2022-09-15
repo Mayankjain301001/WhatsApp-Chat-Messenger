@@ -9,6 +9,8 @@ import SidebarChat from './SidebarChat';
 import db from './firebase';
 import { useStateValue } from './StateProvider';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
     const [rooms,setRooms] = useState([]);
@@ -25,7 +27,7 @@ function Sidebar() {
     }, [])
 
     const logout = ()=>{
-        window.location.reload();
+        window.location.href = "/";
     }
     
   return (
@@ -39,9 +41,10 @@ function Sidebar() {
                 <IconButton>
                     <ChatIcon /> 
                 </IconButton>
-                <IconButton>
-                    <LogoutIcon alt="Logout" onClick={logout} />
-                </IconButton>
+                {/* <IconButton> */}
+                <div className='log'>Log out</div>
+                <Button component={Link} to="/"><LogoutIcon onClick={logout} className="dust"/></Button>
+                {/* </IconButton> */}
             </div>
         </div>
         <div className='sidebar__search'>
@@ -60,4 +63,4 @@ function Sidebar() {
   )
 }
 
-export default Sidebar
+export default Sidebar;

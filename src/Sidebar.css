@@ -59,3 +59,17 @@
     overflow: auto;
     scrollbar-width: thin;
 }
+
+.dust{
+    color: black;
+    margin-left: -30px;
+}
+
+.log{
+    color: black;
+    font-weight: 700;
+    font-size: 15px;
+    position: absolute;
+    top: 60px;
+    left: 420px;
+}

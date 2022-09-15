@@ -106,3 +106,8 @@
 .emoji{
     cursor: pointer;
 }
+
+.dust{
+    color: gray;
+    margin-left: -30px;
+}
