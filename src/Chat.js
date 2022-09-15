@@ -7,11 +7,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import MicIcon from '@mui/icons-material/Mic';
+import SendIcon from '@mui/icons-material/Send';
 import { useParams } from 'react-router-dom';
 import db from './firebase';
 import firebase from 'firebase/compat/app';
 import { useStateValue } from './StateProvider';
+import { doc, deleteDoc } from "firebase/firestore";
+import Picker from 'emoji-picker-react';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Chat() {
   const [seed,setSeed] = useState('');
@@ -20,6 +23,7 @@ function Chat() {
   const [RoomName,setRoomName] = useState('');
   const [messages,setMessages] = useState([]); 
   const [{user},dispatch] = useStateValue();
+  const [show,setShow] = useState(false);
   
   useEffect(()=>{
     if(roomId){
@@ -47,6 +51,17 @@ function Chat() {
     })
     setInput('');
   }
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+
+  const onEmojiClick = (event, emojiObject) => {
+    setInput(input+emojiObject.emoji);
+    setShow(false);
+  };
+
+  const delete123 = ()=>{
+    deleteDoc(doc(db, "Rooms", roomId));
+    
+  }
 
   return (
     <div className='chat'>
@@ -65,7 +80,7 @@ function Chat() {
                 <SearchIcon />
             </IconButton>
             <IconButton>
-                <MoreVertIcon />
+                <DeleteIcon onClick={ delete123} />
             </IconButton>
           </div>
         </div>
@@ -82,7 +97,8 @@ function Chat() {
             
         </div>
         <div className='chat__footer'>
-            <InsertEmoticonIcon />
+            <InsertEmoticonIcon className="emoji" onClick={()=> setShow(val=>!val)} />
+            {show && <Picker pickerStyle={{width: '100%'}} onEmojiClick={onEmojiClick} />}
             <AttachmentIcon className='attach' />
             <form>
               <input value={input} 
@@ -92,10 +108,10 @@ function Chat() {
               placeholder='Type a message' type="text" />
               <button onClick={sendMessage} type="submit">Send a message</button>
             </form>
-            <MicIcon />
+            <SendIcon className="emoji" onClick={sendMessage} />
         </div>
     </div>
   )
 }
 
-export default Chat
+export default Chat;

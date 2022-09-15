@@ -103,3 +103,6 @@
     transform: rotate(-40deg);
     margin-left: -3px;
 }
+.emoji{
+    cursor: pointer;
+}

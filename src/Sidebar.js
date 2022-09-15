@@ -3,12 +3,12 @@ import './Sidebar.css';
 import Avatar from '@mui/material/Avatar';
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import ChatIcon from '@mui/icons-material/Chat';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarChat from './SidebarChat';
 import db from './firebase';
 import { useStateValue } from './StateProvider';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Sidebar() {
     const [rooms,setRooms] = useState([]);
@@ -23,6 +23,10 @@ function Sidebar() {
         )))
       ))
     }, [])
+
+    const logout = ()=>{
+        window.location.reload();
+    }
     
   return (
     <div className='sidebar'>
@@ -33,10 +37,10 @@ function Sidebar() {
                     <DonutLargeIcon />
                 </IconButton>
                 <IconButton>
-                    <ChatIcon />
+                    <ChatIcon /> 
                 </IconButton>
                 <IconButton>
-                    <MoreVertIcon />
+                    <LogoutIcon alt="Logout" onClick={logout} />
                 </IconButton>
             </div>
         </div>
