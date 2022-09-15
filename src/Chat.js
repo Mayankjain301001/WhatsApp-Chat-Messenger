@@ -10,6 +10,8 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
 import { useParams } from 'react-router-dom';
 import db from './firebase';
+import firebase from 'firebase/compat/app';
+import { useStateValue } from './StateProvider';
 
 function Chat() {
   const [seed,setSeed] = useState('');
@@ -17,7 +19,8 @@ function Chat() {
   const {roomId} = useParams();
   const [RoomName,setRoomName] = useState('');
   const [messages,setMessages] = useState([]); 
-
+  const [{user},dispatch] = useStateValue();
+  
   useEffect(()=>{
     if(roomId){
       db.collection("Rooms").doc(roomId).onSnapshot(snapshot=>(
@@ -36,6 +39,12 @@ function Chat() {
   const sendMessage = (e)=>{
     e.preventDefault();
     console.log("You have typed a message: ",input);
+    db.collection('Rooms').doc(roomId).collection('messages').add({
+      message: input,
+      name: user.displayName,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      email: user.email,
+    })
     setInput('');
   }
 
@@ -45,7 +54,11 @@ function Chat() {
           <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
           <div className='chat_headerInfo'>
             <h3>{RoomName}</h3>
-            <p>Last seen at</p>
+            <p>
+              {
+                new Date(messages[messages.length-1]?.timestamp?.toDate()).toLocaleString() === "Invalid Date" ? "No activity" : `last seen at ${new Date(messages[messages.length-1]?.timestamp?.toDate()).toLocaleString()}`
+              }
+            </p>
           </div>
           <div className='chat_headerRight'>
             <IconButton>
@@ -58,7 +71,7 @@ function Chat() {
         </div>
         <div className='chat__body'>
           {messages.map((message)=>(
-            <p className={`chat__message ${true && 'chat__receiver'}`}><span className='chat__name'>{message.name}</span>{message.message}
+            <p className={`chat__message ${message.email === user.email && 'chat__receiver'}`}><span className='chat__name'>{message.name}</span>{message.message}
             <span className='chat__timeStamp'>
               {
                 new Date(message.timestamp?.toDate()).toLocaleString()

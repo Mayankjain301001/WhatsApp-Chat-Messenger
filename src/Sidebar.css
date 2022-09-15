@@ -24,6 +24,9 @@
 .sidebar__searchContainer > input{
     border: none;
     margin-left: 10px;
+    width: 80%;
+    border-radius: 3px;
+    
 }
 
 .sidebar__searchContainer > .MuiSvgIcon-root{
